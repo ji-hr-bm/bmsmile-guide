@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BMSMILE 온보딩 가이드</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue: #1aaee5;
+    --blue-light: #5bc8f0;
+    --blue-pale: #e8f7fd;
+    --dark: #1a1a1a;
+    --mid: #6b7280;
+    --light: #f4fbff;
+    --white: #ffffff;
+    --green: #3a7d5c;
+    --green-pale: #ebf5f0;
+    --orange: #f97316;
+    --orange-pale: #fff7ed;
+    --border: #daeef8;
+    --nav-width: 240px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; overflow: hidden; }
+  body { font-family: 'Noto Sans KR', sans-serif; color: var(--dark); display: flex; }
+
+  /* ───────────────────────────────
+     사이드 네비게이션
+  ─────────────────────────────── */
+  .side-nav {
+    width: var(--nav-width);
+    height: 100vh;
+    background: var(--dark);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    overflow-y: auto;
+    z-index: 100;
+  }
+
+  .nav-logo {
+    padding: 28px 22px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .nav-logo .logo-main { font-size: 19px; font-weight: 900; color: #fff; letter-spacing: 1px; display: block; }
+  .nav-logo .logo-sub { font-size: 9px; font-weight: 500; letter-spacing: 2px; color: var(--blue-light); text-transform: uppercase; margin-top: 3px; display: block; }
+
+  .nav-section-label {
+    font-size: 8px; font-weight: 700; letter-spacing: 2px;
+    color: rgba(255,255,255,0.22); text-transform: uppercase;
+    padding: 14px 22px 5px;
+  }
+
+  .nav-link {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 22px;
+    color: rgba(255,255,255,0.48);
+    text-decoration: none; font-size: 12.5px;
+    cursor: pointer; border: none; background: none; width: 100%;
+    text-align: left;
+    transition: all 0.18s;
+    border-left: 3px solid transparent;
+  }
+  .nav-link:hover { color: rgba(255,255,255,0.85); background: rgba(255,255,255,0.05); }
+  .nav-link.active {
+    color: #fff;
+    background: rgba(26,174,229,0.12);
+    border-left-color: var(--blue);
+  }
+  .nav-num { font-size: 9.5px; color: var(--blue-light); font-weight: 700; min-width: 16px; }
+  .nav-footer {
+    margin-top: auto; padding: 18px 22px;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    font-size: 10.5px; color: rgba(255,255,255,0.18); line-height: 1.8;
+  }
+
+  /* ───────────────────────────────
+     메인 콘텐츠 영역
+  ─────────────────────────────── */
+  .content-wrap {
+    flex: 1;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+    background: var(--light);
+  }
+
+  /* 각 페이지 */
+  .page {
+    position: absolute; inset: 0;
+    overflow-y: auto;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(12px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+  .page.active {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateY(0);
+  }
+
+  /* ───────────────────────────────
+     공통 레이아웃
+  ─────────────────────────────── */
+  .page-inner { padding: 48px 56px 64px; max-width: 960px; }
+
+  .page-hero {
+    background: var(--dark);
+    padding: 0;
+    min-height: 100vh;
+    display: flex; align-items: stretch;
+    position: relative; overflow: hidden;
+  }
+  .page-hero-bg {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, #0a0a0a 0%, #111827 50%, #0f2230 100%);
+  }
+  .page-hero-glow {
+    position: absolute; width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(26,174,229,0.16) 0%, transparent 65%);
+    top: -80px; right: -60px; pointer-events: none;
+  }
+  .page-hero-glow2 {
+    position: absolute; width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(58,125,92,0.1) 0%, transparent 65%);
+    bottom: -60px; left: 300px; pointer-events: none;
+  }
+  .page-hero-inner {
+    position: relative; z-index: 2;
+    padding: 72px 64px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .hero-badge-row { display: flex; gap: 10px; margin-bottom: 22px; flex-wrap: wrap; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(26,174,229,0.14); color: var(--blue-light);
+    font-size: 10.5px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 5px 12px; border-radius: 20px; border: 1px solid rgba(26,174,229,0.28);
+  }
+  .hero-badge.green { background: rgba(58,125,92,0.14); color: #6bcfa0; border-color: rgba(58,125,92,0.28); }
+  .page-hero-inner h1 { font-size: 44px; font-weight: 900; color: #fff; line-height: 1.18; margin-bottom: 14px; }
+  .page-hero-inner h1 .accent { color: var(--blue); }
+  .hero-slogan { font-size: 15px; color: rgba(255,255,255,0.45); font-style: italic; margin-bottom: 8px; }
+  .hero-desc { font-size: 14px; color: rgba(255,255,255,0.58); max-width: 500px; margin-bottom: 36px; line-height: 1.75; }
+  .hero-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+  .hero-chip {
+    display: flex; align-items: center; gap: 5px;
+    background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 20px; padding: 6px 13px;
+    color: rgba(255,255,255,0.7); font-size: 11.5px; font-weight: 500;
+    cursor: pointer; border: none; background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.13);
+    transition: all 0.18s;
+  }
+  .hero-chip:hover { background: rgba(26,174,229,0.18); border-color: rgba(26,174,229,0.38); color: #fff; }
+
+  /* ───────────────────────────────
+     페이지 헤더
+  ─────────────────────────────── */
+  .page-header {
+    padding: 40px 56px 0;
+    border-bottom: 1px solid var(--border);
+    background: var(--white);
+    display: flex; align-items: flex-end; gap: 20px;
+    padding-bottom: 24px;
+  }
+  .page-header-num { font-family: 'DM Serif Display', serif; font-size: 52px; color: var(--border); line-height: 1; flex-shrink: 0; }
+  .page-header-text {}
+  .page-tag { font-size: 9px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--blue); display: block; margin-bottom: 3px; }
+  .page-header h2 { font-size: 26px; font-weight: 700; color: var(--dark); }
+  .page-desc { font-size: 13px; color: var(--mid); margin-top: 2px; }
+
+  /* ───────────────────────────────
+     서브 타이틀
+  ─────────────────────────────── */
+  .sub-title {
+    font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--mid); margin: 28px 0 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .sub-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* ───────────────────────────────
+     통계 수치
+  ─────────────────────────────── */
+  .stat-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-bottom: 24px; }
+  .stat-card { background: var(--dark); border-radius: 14px; padding: 22px; text-align: center; }
+  .stat-card .num { font-size: 30px; font-weight: 900; color: var(--blue); line-height: 1; margin-bottom: 6px; }
+  .stat-card .label { font-size: 11.5px; color: rgba(255,255,255,0.45); font-weight: 500; }
+
+  /* ───────────────────────────────
+     성장 그래프
+  ─────────────────────────────── */
+  .growth-bar-wrap { background: var(--dark); border-radius: 14px; padding: 22px 26px; margin-bottom: 26px; }
+  .growth-title { font-size: 10px; font-weight: 700; letter-spacing: 1px; color: rgba(255,255,255,0.35); text-transform: uppercase; margin-bottom: 18px; }
+  .growth-bars { display: flex; align-items: flex-end; gap: 10px; height: 110px; }
+  .g-bar-wrap { display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1; }
+  .g-bar { width: 100%; background: linear-gradient(180deg, var(--blue) 0%, #0e6fa3 100%); border-radius: 4px 4px 0 0; position: relative; }
+  .g-val { position: absolute; top: -19px; left: 50%; transform: translateX(-50%); font-size: 9px; font-weight: 700; color: var(--blue-light); white-space: nowrap; }
+  .g-year { font-size: 9px; color: rgba(255,255,255,0.3); font-weight: 500; }
+
+  /* ───────────────────────────────
+     글로벌
+  ─────────────────────────────── */
+  .global-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
+  .global-card { background: var(--dark); border-radius: 14px; padding: 26px; }
+  .global-card .big { font-size: 42px; font-weight: 900; color: var(--blue); line-height: 1; }
+  .global-card .big.green-accent { color: #6bcfa0; }
+  .global-card .gl { font-size: 12px; color: rgba(255,255,255,0.45); margin-top: 6px; }
+  .global-card .countries { font-size: 11px; color: rgba(255,255,255,0.3); margin-top: 6px; line-height: 1.65; }
+
+  /* ───────────────────────────────
+     브랜드 카드
+  ─────────────────────────────── */
+  .brand-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(195px,1fr)); gap: 13px; margin-bottom: 12px; }
+  .brand-card { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 18px; transition: all 0.18s; }
+  .brand-card:hover { border-color: var(--blue-light); transform: translateY(-2px); box-shadow: 0 6px 18px rgba(26,174,229,0.1); }
+  .b-icon { font-size: 24px; margin-bottom: 9px; display: block; }
+  .b-tag { font-size: 8px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--blue); margin-bottom: 3px; display: block; }
+  .b-name { font-size: 14px; font-weight: 900; color: var(--dark); margin-bottom: 5px; }
+  .b-desc { font-size: 11.5px; color: var(--mid); line-height: 1.6; }
+
+  /* ───────────────────────────────
+     인재상
+  ─────────────────────────────── */
+  .talent-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px,1fr)); gap: 10px; }
+  .talent-item { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; display: flex; gap: 11px; align-items: flex-start; transition: all 0.18s; }
+  .talent-item:hover { border-color: var(--blue-light); }
+  .talent-num { font-size: 17px; font-weight: 900; color: var(--blue); min-width: 22px; line-height: 1.2; }
+  .talent-content h4 { font-size: 12.5px; font-weight: 700; color: var(--dark); margin-bottom: 2px; }
+  .talent-content p { font-size: 11px; color: var(--mid); line-height: 1.5; }
+
+  /* ───────────────────────────────
+     카드 그리드
+  ─────────────────────────────── */
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(195px,1fr)); gap: 13px; }
+  .card { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 18px; transition: all 0.18s; }
+  .card:hover { border-color: var(--blue-light); transform: translateY(-2px); box-shadow: 0 5px 16px rgba(26,174,229,0.09); }
+  .card-icon { font-size: 24px; margin-bottom: 9px; display: block; }
+  .card h3 { font-size: 12.5px; font-weight: 700; color: var(--dark); margin-bottom: 5px; }
+  .card p { font-size: 12px; color: var(--mid); line-height: 1.6; }
+
+  /* ───────────────────────────────
+     스텝 리스트
+  ─────────────────────────────── */
+  .step-list { display: flex; flex-direction: column; gap: 10px; }
+  .step-item { display: flex; gap: 13px; align-items: flex-start; background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 15px 17px; transition: all 0.18s; }
+  .step-item:hover { border-color: var(--blue-light); }
+  .step-badge { width: 28px; height: 28px; background: var(--blue); color: #fff; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+  .step-content h3 { font-size: 13px; font-weight: 700; color: var(--dark); margin-bottom: 3px; }
+  .step-content p { font-size: 12.5px; color: var(--mid); line-height: 1.65; }
+
+  /* ───────────────────────────────
+     인포박스
+  ─────────────────────────────── */
+  .info-box { border-radius: 12px; padding: 14px 17px; margin-top: 11px; display: flex; gap: 11px; align-items: flex-start; }
+  .info-box.blue { background: var(--blue-pale); border: 1px solid rgba(26,174,229,0.2); }
+  .info-box.orange { background: var(--orange-pale); border: 1px solid rgba(249,115,22,0.2); }
+  .info-box.green { background: var(--green-pale); border: 1px solid rgba(58,125,92,0.2); }
+  .info-box.dark { background: #1a1a1a; border: 1px solid rgba(255,255,255,0.09); }
+  .ib-icon { font-size: 16px; flex-shrink: 0; margin-top: 2px; }
+  .ib h4 { font-size: 12.5px; font-weight: 700; color: var(--dark); margin-bottom: 3px; }
+  .info-box.dark .ib h4 { color: #fff; }
+  .ib p { font-size: 12px; color: var(--mid); line-height: 1.7; }
+  .info-box.dark .ib p { color: rgba(255,255,255,0.5); }
+
+  /* ───────────────────────────────
+     테이블
+  ─────────────────────────────── */
+  .table-wrap { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .info-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  .info-table th { background: var(--dark); color: rgba(255,255,255,0.88); font-weight: 600; padding: 10px 13px; text-align: left; font-size: 11px; }
+  .info-table td { padding: 10px 13px; border-bottom: 1px solid var(--border); color: var(--mid); vertical-align: top; }
+  .info-table tr:last-child td { border-bottom: none; }
+  .info-table tr:hover td { background: rgba(26,174,229,0.04); }
+  .info-table td:first-child { font-weight: 600; color: var(--dark); white-space: nowrap; }
+
+  /* ───────────────────────────────
+     기타
+  ─────────────────────────────── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
+  .tool-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(165px,1fr)); gap: 13px; }
+  .tool-card { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 18px; text-align: center; }
+  .tool-card .t-icon { font-size: 28px; margin-bottom: 9px; }
+  .tool-card h3 { font-size: 12.5px; font-weight: 700; color: var(--dark); margin-bottom: 3px; }
+  .tool-card p { font-size: 11px; color: var(--mid); }
+
+  .contact-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(178px,1fr)); gap: 12px; }
+  .contact-card { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 3px; }
+  .c-dept { font-size: 8px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--blue); }
+  .c-name { font-size: 14px; font-weight: 700; color: var(--dark); }
+  .c-role { font-size: 11.5px; color: var(--mid); }
+  .c-scope { font-size: 11px; color: var(--mid); margin-top: 3px; }
+
+  .badge { display: inline-block; padding: 2px 9px; border-radius: 20px; font-size: 10.5px; font-weight: 600; }
+  .badge-blue { background: var(--blue-pale); color: var(--blue); }
+  .badge-green { background: var(--green-pale); color: var(--green); }
+  .badge-orange { background: var(--orange-pale); color: var(--orange); }
+
+  .tip { display: inline-block; margin-top: 5px; background: var(--blue-pale); color: var(--blue); font-size: 11px; font-weight: 500; padding: 2px 10px; border-radius: 20px; }
+  .tip-o { background: var(--orange-pale); color: var(--orange); }
+  .tip-g { background: var(--green-pale); color: var(--green); }
+
+  /* 모바일 */
+  @media (max-width: 820px) {
+    body { flex-direction: column; overflow: auto; }
+    .side-nav { width: 100%; height: auto; flex-direction: row; overflow-x: auto; padding: 10px 12px; flex-shrink: 0; }
+    .nav-logo { padding: 0 14px 0 0; border-bottom: none; border-right: 1px solid rgba(255,255,255,0.08); margin-right: 10px; flex-shrink: 0; }
+    .nav-section-label { display: none; }
+    .nav-link { padding: 7px 10px; font-size: 11px; border-left: none; border-bottom: 3px solid transparent; white-space: nowrap; }
+    .nav-link.active, .nav-link:hover { border-bottom-color: var(--blue); border-left-color: transparent; background: none; }
+    .nav-footer { display: none; }
+    .content-wrap { height: calc(100vh - 52px); }
+    .page-inner { padding: 28px 18px 48px; }
+    .page-header { padding: 28px 18px 18px; }
+    .page-hero-inner { padding: 48px 22px; }
+    .page-hero-inner h1 { font-size: 28px; }
+    .two-col, .global-row, .stat-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── 사이드 네비게이션 ── -->
+<nav class="side-nav">
+  <div class="nav-logo">
+    <span class="logo-main">BMSMILE</span>
+    <span class="logo-sub">Onboarding Guide</span>
+  </div>
+
+  <div class="nav-section-label">회사 소개</div>
+  <button class="nav-link active" data-page="intro"><span class="nav-num">00</span> 비엠스마일 소개</button>
+
+  <div class="nav-section-label">생활 가이드북</div>
+  <button class="nav-link" data-page="access"><span class="nav-num">01</span> 오피스 출입 안내</button>
+  <button class="nav-link" data-page="facilities"><span class="nav-num">02</span> 주변 편의시설</button>
+  <button class="nav-link" data-page="space"><span class="nav-num">03</span> 사내 공간 안내</button>
+  <button class="nav-link" data-page="welfare"><span class="nav-num">04</span> 복리후생</button>
+  <button class="nav-link" data-page="tools"><span class="nav-num">05</span> 업무 툴 &amp; 문화</button>
+  <button class="nav-link" data-page="newbie"><span class="nav-num">06</span> 신규 입사자 안내</button>
+  <button class="nav-link" data-page="apply"><span class="nav-num">07</span> 각종 신청 안내</button>
+  <button class="nav-link" data-page="contacts"><span class="nav-num">08</span> 주요 연락처</button>
+
+  <div class="nav-footer">© 2025 BMSMILE<br>HR Team · 내부 자료</div>
+</nav>
+
+<!-- ── 콘텐츠 영역 ── -->
+<div class="content-wrap">
+
+  <!-- ════════════════════════════════
+       PAGE 00 — 비엠스마일 소개
+  ════════════════════════════════ -->
+  <div class="page active" id="page-intro">
+    <div class="page-hero">
+      <div class="page-hero-bg"></div>
+      <div class="page-hero-glow"></div>
+      <div class="page-hero-glow2"></div>
+      <div class="page-hero-inner">
+        <div class="hero-badge-row">
+          <span class="hero-badge">🌍 Business Makes the Earth Smile</span>
+          <span class="hero-badge green">🐾 AI 기반 글로벌 펫 테크 기업</span>
+        </div>
+        <h1>비엠스마일의<br><span class="accent">구성원</span>이 되신 것을<br>진심으로 환영합니다!</h1>
+        <p class="hero-slogan">"비즈니스를 통해서 지구를 이롭게 한다."</p>
+        <p class="hero-desc">앞으로 여러분의 '불타는 열정'과 '반짝이는 혁신'을 부탁 드리며,<br>회사도 구성원들이 항상 행복을 느낄 수 있는 공간이 되도록 노력하겠습니다.</p>
+        <div class="hero-chips">
+          <button class="hero-chip" data-page="access">📍 오시는 길</button>
+          <button class="hero-chip" data-page="welfare">🎁 복리후생</button>
+          <button class="hero-chip" data-page="tools">💻 업무 툴</button>
+          <button class="hero-chip" data-page="apply">📋 각종 신청</button>
+          <button class="hero-chip" data-page="contacts">👤 연락처</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-inner">
+
+      <div class="sub-title">📈 Our Growth — 최단기간 최고성장</div>
+      <div class="stat-row">
+        <div class="stat-card"><div class="num">1,500억+</div><div class="label">연매출</div></div>
+        <div class="stat-card"><div class="num">200만+</div><div class="label">자사물 누적 회원 수</div></div>
+        <div class="stat-card"><div class="num">500명+</div><div class="label">전사 임직원</div></div>
+      </div>
+
+      <div class="growth-bar-wrap">
+        <div class="growth-title">📊 연매출 성장 추이 (억원)</div>
+        <div class="growth-bars">
+          <div class="g-bar-wrap"><div class="g-bar" style="height:2px;"><span class="g-val">1억</span></div><div class="g-year">2018</div></div>
+          <div class="g-bar-wrap"><div class="g-bar" style="height:8px;"><span class="g-val">82억</span></div><div class="g-year">2019</div></div>
+          <div class="g-bar-wrap"><div class="g-bar" style="height:18px;"><span class="g-val">208억</span></div><div class="g-year">2020</div></div>
+          <div class="g-bar-wrap"><div class="g-bar" style="height:29px;"><span class="g-val">329억</span></div><div class="g-year">2021</div></div>
+          <div class="g-bar-wrap"><div class="g-bar" style="height:53px;"><span class="g-val">654억</span></div><div class="g-year">2022</div></div>
+          <div class="g-bar-wrap"><div class="g-bar" style="height:83px;"><span class="g-val">1,035억</span></div><div class="g-year">2023</div></div>
+          <div class="g-bar-wrap"><div class="g-bar" style="height:108px;"><span class="g-val">1,350억</span></div><div class="g-year">2024</div></div>
+          <div class="g-bar-wrap"><div class="g-bar" style="height:110px; background:linear-gradient(180deg,#6bcfa0 0%,#3a7d5c 100%);"><span class="g-val" style="color:#6bcfa0;">1,500억+</span></div><div class="g-year" style="color:#6bcfa0;">목표</div></div>
+        </div>
+      </div>
+
+      <div class="sub-title">🌐 Global Expansion (As of Q4 2025)</div>
+      <div class="global-row">
+        <div class="global-card">
+          <div class="big">11개국</div>
+          <div class="gl">해외 진출 국가 수</div>
+          <div class="countries">한국 · 중국 · 일본 · 태국 · 대만 · 홍콩 · 인도 · 필리핀 · 미국 · 인도네시아 · 싱가포르</div>
+        </div>
+        <div class="global-card">
+          <div class="big green-accent">4개국+</div>
+          <div class="gl">해외 진출 예정 국가</div>
+          <div class="countries">영국 · 호주 · 캄보디아 · 말레이시아 등</div>
+        </div>
+      </div>
+
+      <div class="sub-title">👤 대표 소개 — 이주광 대표이사</div>
+      <div class="info-box dark" style="margin-bottom:26px; gap:18px;">
+        <div style="text-align:center; flex-shrink:0;">
+          <div style="width:56px;height:56px;background:rgba(26,174,229,0.18);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;">👨‍💼</div>
+          <div style="font-size:9.5px;color:rgba(255,255,255,0.3);margin-top:5px;">BMSMILE 대표</div>
+        </div>
+        <div class="ib">
+          <h4 style="font-size:14px;">이주광 대표이사 (2020.01~현재)</h4>
+          <p>2014년 (주)에이피알 창업, 2022년 연매출 5,000억 달성, 기업가치 2조 5천억 이상 달성<br>
+          2020년 (주)비엠스마일 연쇄창업 → 2023년 유니콘 달성 · 기업가치 3,000억원 (투자처: SK)<br><br>
+          <span style="color:#5bc8f0;">포브스 선정</span> '아시아 30세 이하 기업인 30인' · '2017년 비상장 한국 10대 스타트업'<br>
+          그룹 11개 법인(해외법인 포함) / 직원수 약 400명</p>
+        </div>
+      </div>
+
+      <div class="sub-title">🏷 그룹 브랜드 포트폴리오</div>
+      <div class="brand-grid">
+        <div class="brand-card"><span class="b-icon">🐾</span><span class="b-tag">Virtual IP · Pet</span><div class="b-name">PETHROOM</div><p class="b-desc">반려동물과 함께하는 여정. 국내 최초 반려동물 숏폼 & 리워드 플랫폼.</p></div>
+        <div class="brand-card"><span class="b-icon">🌈</span><span class="b-tag">Virtual IP · Lifestyle</span><div class="b-name">wiggle wiggle</div><p class="b-desc">일상의 명도와 채도를 높이는 라이프스타일 브랜드. 감각적인 컬러와 유니크한 디자인.</p></div>
+        <div class="brand-card"><span class="b-icon">🏭</span><span class="b-tag">Industry</span><div class="b-name">JL C&T</div><p class="b-desc">브랜드 제조·유통·물류 담당. 공장 및 물류창고 운영으로 생산·공급 인프라 책임.</p></div>
+        <div class="brand-card"><span class="b-icon">🤖</span><span class="b-tag">AI</span><div class="b-name">INFINISHOW</div><p class="b-desc">비엠스마일의 AI 운영 사업 법인. 글로벌 브랜드 AI SaaS 기반 AI Transformation.</p></div>
+        <div class="brand-card"><span class="b-icon">🐱</span><span class="b-tag">Industry · Pet Food</span><div class="b-name">meow TIMES</div><p class="b-desc">나의 행복 배달원 미우타임즈. 15개국 원물 직계약 자체 블렌딩 레시피.</p></div>
+        <div class="brand-card"><span class="b-icon">✨</span><span class="b-tag">Human IP · Skincare</span><div class="b-name">DERMAGENCY</div><p class="b-desc">인플루언서 김민영 님 런칭. 저자극·문제성 피부 중심의 더마 코스메틱.</p></div>
+        <div class="brand-card"><span class="b-icon">💄</span><span class="b-tag">Human IP · Beauty</span><div class="b-name">MUMUKI</div><p class="b-desc">인플루언서 임지현 님 설립. "묵묵히 쌓이는 아름다움"을 지향하는 색조화장품.</p></div>
+      </div>
+
+      <div class="sub-title" style="margin-top:32px;">🏆 BMSMILE 인재상 TOP 20</div>
+      <div class="talent-grid">
+        <div class="talent-item"><div class="talent-num">1</div><div class="talent-content"><h4>AI에 대해 진심인 사람</h4><p>AI의 흐름과 가능성을 빠르게 캐치하고 응용할 줄 아는 사람</p></div></div>
+        <div class="talent-item"><div class="talent-num">2</div><div class="talent-content"><h4>실행이 빠른 사람</h4><p>완벽주의보다 일단 해보고, 피드백 받고 다시 고치는 행동형 실행가</p></div></div>
+        <div class="talent-item"><div class="talent-num">3</div><div class="talent-content"><h4>콘텐츠 감각이 살아있는 사람</h4><p>대중 반응을 직감하고 터뜨릴 줄 아는 감각 보유자</p></div></div>
+        <div class="talent-item"><div class="talent-num">4</div><div class="talent-content"><h4>브랜드에 진심인 사람</h4><p>브랜드 하나를 세계관처럼 만들고 싶은 브랜딩 마니아</p></div></div>
+        <div class="talent-item"><div class="talent-num">5</div><div class="talent-content"><h4>지독한 사람</h4><p>한 번 물면 놓지 않고, 포기 대신 물고 늘어지는 담대한 집념형</p></div></div>
+        <div class="talent-item"><div class="talent-num">6</div><div class="talent-content"><h4>'왜 안돼?'라고 묻는 사람</h4><p>기존 방식을 그대로 따르지 않는 도전적 사고의 소유자</p></div></div>
+        <div class="talent-item"><div class="talent-num">7</div><div class="talent-content"><h4>일을 즐기는 사람</h4><p>'재있어서' 몰입하는 타입. 밤새도 신나고, 일이 곧 놀이인 사람</p></div></div>
+        <div class="talent-item"><div class="talent-num">8</div><div class="talent-content"><h4>팀워크보다 시너지를 추구하는 사람</h4><p>서로의 역량이 배가되는 협업을 만드는 사람</p></div></div>
+        <div class="talent-item"><div class="talent-num">9</div><div class="talent-content"><h4>결과로 말하는 사람</h4><p>결과와 성과로 존재감을 증명하는 퍼포먼스 중심 인재</p></div></div>
+        <div class="talent-item"><div class="talent-num">10</div><div class="talent-content"><h4>브랜드를 함께 키우고 싶은 사람</h4><p>이 회사의 브랜드가 잘되면 내 브랜드처럼 자랑스러운 사람</p></div></div>
+        <div class="talent-item"><div class="talent-num">11</div><div class="talent-content"><h4>말을 잘하는 사람</h4><p>칭찬도, 피드백도, 갈등도 상대를 존중하며 말하는 품위 있는 커뮤니케이터</p></div></div>
+        <div class="talent-item"><div class="talent-num">12</div><div class="talent-content"><h4>인간관계를 잘하는 사람</h4><p>주변을 살피고 같이 성장할 줄 아는 사람</p></div></div>
+        <div class="talent-item"><div class="talent-num">13</div><div class="talent-content"><h4>실수를 용기 있게 인정하는 사람</h4><p>숨기기보다 인정하고, 고치는 데 집중하는 사람</p></div></div>
+        <div class="talent-item"><div class="talent-num">14</div><div class="talent-content"><h4>모르는 걸 당당하게 말하는 사람</h4><p>"몰라요"라고 말할 수 있는 자신감과 성장의 소유자</p></div></div>
+        <div class="talent-item"><div class="talent-num">15</div><div class="talent-content"><h4>문제를 발견하는 사람</h4><p>스스로 문제를 찾아내고 해결책을 제시하는 사람</p></div></div>
+        <div class="talent-item"><div class="talent-num">16</div><div class="talent-content"><h4>주인의식을 갖고 일하는 사람</h4><p>회사를 성장할 공간으로 여기며, 내 것처럼 아끼고 관리하는 사람</p></div></div>
+        <div class="talent-item"><div class="talent-num">17</div><div class="talent-content"><h4>먼저 인사하는 사람</h4><p>누구를 만나든 먼저 밝게 인사하며 긍정적인 분위기를 만드는 사람</p></div></div>
+        <div class="talent-item"><div class="talent-num">18</div><div class="talent-content"><h4>정돈을 습관처럼 하는 사람</h4><p>함께 일하는 공간을 쾌적하게 유지하는 사람</p></div></div>
+        <div class="talent-item"><div class="talent-num">19</div><div class="talent-content"><h4>긍정 에너지가 있는 사람</h4><p>어떤 상황에서도 긍정적인 태도로 주변까지 환하게 만드는 에너자이저</p></div></div>
+        <div class="talent-item"><div class="talent-num">20</div><div class="talent-content"><h4>감정을 컨트롤하는 사람</h4><p>기분이나 스트레스가 태도가 되지 않고, 항상 표정과 태도를 단정하게 유지하는 사람</p></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════
+       PAGE 01 — 오피스 출입
+  ════════════════════════════════ -->
+  <div class="page" id="page-access">
+    <div class="page-header">
+      <div class="page-header-num">01</div>
+      <div class="page-header-text">
+        <span class="page-tag">Office Access</span>
+        <h2>오피스 출입 안내</h2>
+        <p class="page-desc">파크원타워1 47층 · 여의도 본사</p>
+      </div>
+    </div>
+    <div class="page-inner">
+      <div class="sub-title">📍 오시는 길</div>
+      <div class="step-list" style="margin-bottom:22px;">
+        <div class="step-item"><div class="step-badge">🏢</div><div class="step-content"><h3>주소</h3><p>서울특별시 영등포구 여의대로 108 파크원타워 1 <strong>47층</strong></p></div></div>
+        <div class="step-item"><div class="step-badge">🚇</div><div class="step-content"><h3>지하철</h3><p>5호선·9호선 <strong>여의도역</strong> / 9호선 <strong>국회의사당역</strong> 도보 5분<br>여의도역 3번 출구 도보 10분 · 5번 출구 도보 5분</p></div></div>
+        <div class="step-item"><div class="step-badge">🚌</div><div class="step-content"><h3>버스</h3><p>간선 160, 260, 262, 360 / 지선 5623, 5633</p></div></div>
+      </div>
+
+      <div class="sub-title">🔑 출입 및 주차</div>
+      <div class="two-col">
+        <div class="info-box blue"><span class="ib-icon">🪪</span><div class="ib"><h4>방문객 출입</h4><p>사내 직원에게 방문 일정을 사전 전달 후, 직원이 발급한 <strong>출입용 QR코드</strong>를 1층 안내데스크에 제시하여 임시 출입증으로 교환 후 입실</p></div></div>
+        <div class="info-box blue"><span class="ib-icon">🚗</span><div class="ib"><h4>주차 등록</h4><p>출차 시점에 인사실에 <strong>차량번호</strong>를 알려주시면 등록해 드립니다. 주차비는 외부손님들에게 지원됩니다.</p></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════
+       PAGE 02 — 주변 편의시설
+  ════════════════════════════════ -->
+  <div class="page" id="page-facilities">
+    <div class="page-header">
+      <div class="page-header-num">02</div>
+      <div class="page-header-text">
+        <span class="page-tag">Nearby Facilities</span>
+        <h2>주변 편의시설 안내</h2>
+        <p class="page-desc">파크원타워1 내외 시설 안내입니다.</p>
+      </div>
+    </div>
+    <div class="page-inner">
+      <div class="sub-title">🏥 의료 · 편의 시설</div>
+      <div class="card-grid" style="margin-bottom:22px;">
+        <div class="card"><span class="card-icon">🏥</span><h3>병원 (치과·정형외과·피부과)</h3><p>파크원타워1 <strong>2층</strong></p></div>
+        <div class="card"><span class="card-icon">💊</span><h3>약국</h3><p>파크원타워1 <strong>2층</strong></p></div>
+        <div class="card"><span class="card-icon">🏪</span><h3>편의점</h3><p>파크원타워1 <strong>B1층</strong></p></div>
+        <div class="card"><span class="card-icon">🏧</span><h3>은행 · ATM</h3><p>파크원타워1 <strong>B1층</strong></p></div>
+      </div>
+
+      <div class="sub-title">📦 문서 · 택배 · 퀵</div>
+      <div class="step-list" style="margin-bottom:22px;">
+        <div class="step-item"><div class="step-badge">📬</div><div class="step-content"><h3>문서수발실 (B3층)</h3><p>파크원타워1 주차장 엘리베이터 옆 B3층 — 대용량 물품, 등기 등 처리 가능</p><span class="tip">📞 02-2118-0131</span></div></div>
+        <div class="step-item"><div class="step-badge">📦</div><div class="step-content"><h3>일반택배 수거 — 사무실 가운데 통로</h3><p>오전 9시 전후 / 오후 2시 전후 도착 (화물 E/V 이용에 따라 변동)<br>반품: 인터넷 반품 신청 후 B3층 '택배 반품함'에 넣어두시면 됩니다.</p><span class="tip tip-o">⚠️ 택배는 도착 당일에 꼭 찾아가세요!</span></div></div>
+        <div class="step-item"><div class="step-badge">🛵</div><div class="step-content"><h3>퀵 서비스 — 스피드퀵</h3><p><strong>1599-8077</strong>로 연락 후 법인 및 이름 말씀하시면 됩니다. (사용 자제 요망)</p></div></div>
+      </div>
+
+      <div class="sub-title">🍽 주변 식사 장소</div>
+      <div class="card-grid" style="margin-bottom:22px;">
+        <div class="card"><span class="card-icon">🏬</span><h3>IFC 몰</h3><p><strong>도보 10분</strong> — 글로벌 푸드 & 브런치 카페 100여 곳의 복합몰</p></div>
+        <div class="card"><span class="card-icon">🍜</span><h3>더 현대 서울</h3><p><strong>도보 3분</strong> — 50여 곳의 맛집과 유명 카페들이 한 곳에</p></div>
+        <div class="card"><span class="card-icon">🍱</span><h3>원센티널 여의도</h3><p><strong>도보 5분</strong> — 프리미엄 오피스 타워 속 한식 다이닝 & 카페 허브</p></div>
+      </div>
+
+      <div class="sub-title">🌿 점심시간 산책루트</div>
+      <div class="card-grid">
+        <div class="card"><span class="card-icon">🌸</span><h3>여의도공원 코스</h3><p><strong>도보 10분</strong> — 벚꽃 시즌과 가을 단풍이 특히 아름답습니다.</p></div>
+        <div class="card"><span class="card-icon">🌊</span><h3>한강공원 코스</h3><p><strong>도보 15분</strong> — 탁 트인 강변 뷰. 퇴근 후 조깅·자전거에도 최적.</p></div>
+        <div class="card"><span class="card-icon">🌿</span><h3>더 현대 옥상정원</h3><p><strong>도보 7분</strong> — 루프탑 정원에서 여의도 전경을 감상할 수 있습니다.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════
+       PAGE 03 — 사내 공간
+  ════════════════════════════════ -->
+  <div class="page" id="page-space">
+    <div class="page-header">
+      <div class="page-header-num">03</div>
+      <div class="page-header-text">
+        <span class="page-tag">Office Spaces</span>
+        <h2>사내 공간 안내</h2>
+        <p class="page-desc">47층 사무실 내 공간 및 이용 에티켓</p>
+      </div>
+    </div>
+    <div class="page-inner">
+      <div class="sub-title">🛋 라운지</div>
+      <div class="two-col" style="margin-bottom:22px;">
+        <div class="info-box blue"><span class="ib-icon">💙</span><div class="ib"><h4>이 공간은</h4><p>간단한 미팅 · 식사 · 타운홀 미팅 장소로 활용 가능합니다.</p></div></div>
+        <div class="info-box orange"><span class="ib-icon">✅</span><div class="ib"><h4>이것만은 꼭 지켜주세요</h4><p>불필요한 미팅 자제 · 식사 후 테이블 닦기 · 음식물 쓰레기 바로 버리기</p></div></div>
+      </div>
+
+      <div class="sub-title">📅 회의실 (컨퍼런스룸·미팅룸·폰부스)</div>
+      <div class="step-list" style="margin-bottom:22px;">
+        <div class="step-item"><div class="step-badge">🏛</div><div class="step-content"><h3>컨퍼런스룸 1 / 미팅룸 1~4</h3><p><strong>그룹웨어(비즈박스) → 일정 → 자원관리 → 자원예약</strong>을 통해 사전 예약 후 이용</p><span class="tip tip-g">✅ 사용 후 정리정돈 및 TV/에어컨 전원 Off 필수</span></div></div>
+        <div class="step-item"><div class="step-badge">📞</div><div class="step-content"><h3>폰부스</h3><p>업무 관련 전화통화는 자리 대신 폰부스를 이용해주세요.</p></div></div>
+      </div>
+
+      <div class="sub-title">☕ 라운지 캔틴 · 음료 & 스낵바</div>
+      <div class="two-col" style="margin-bottom:16px;">
+        <div class="info-box blue"><span class="ib-icon">☕</span><div class="ib"><h4>이 공간에서는</h4><p>고급 커피 머신, 전자레인지, 냉장고, 싱크대, 스낵 및 음료바 무제한 이용 가능<br>스낵바에 원하시는 게 있다면 인사로 연락주세요!</p></div></div>
+        <div class="info-box orange"><span class="ib-icon">⚠️</span><div class="ib"><h4>이것만은 꼭 지켜주세요</h4><p>커피 머신 사용 후 주변 정리 · 개인 식품 냉장고 보관 시 정보 기재 후 <strong>최대 7일 이내</strong> 찾아가세요!</p></div></div>
+      </div>
+      <div class="info-box orange">
+        <span class="ib-icon">🚫</span>
+        <div class="ib"><h4>싱크대에는 절대로 음식물을 버리시면 안 됩니다! (물기 있는 음식물 포함)</h4><p>국물이 있는 음식(마라탕, 국밥 등)은 사무실 내 취식을 지양해주세요.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════
+       PAGE 04 — 복리후생
+  ════════════════════════════════ -->
+  <div class="page" id="page-welfare">
+    <div class="page-header">
+      <div class="page-header-num">04</div>
+      <div class="page-header-text">
+        <span class="page-tag">Benefits</span>
+        <h2>복리후생</h2>
+        <p class="page-desc">BM Smile 임직원을 위한 복리후생 안내입니다.</p>
+      </div>
+    </div>
+    <div class="page-inner">
+      <div class="sub-title">✨ 복리후생 모아보기</div>
+      <div class="card-grid" style="margin-bottom:26px;">
+        <div class="card"><span class="card-icon">📚</span><h3>교육 및 도서지원</h3><p>업무관련 교육/수강 비용 지원 · 도서구매 지원</p><span class="badge badge-blue" style="margin-top:8px;display:inline-block;">신청 → 07 참고</span></div>
+        <div class="card"><span class="card-icon">☕</span><h3>사내 라운지</h3><p>스낵/음료 무제한 · 자유로운 휴식 · 고급 커피머신</p></div>
+        <div class="card"><span class="card-icon">🕐</span><h3>근무시간 편의 지원</h3><p>연차/반차/반반차 제도 · 점심시간 70분 (10분 추가)</p></div>
+        <div class="card"><span class="card-icon">🖥</span><h3>근무환경 지원</h3><p>사무기기 지원 · 사무용품 및 필요 물품 · 듀얼모니터</p></div>
+        <div class="card"><span class="card-icon">🤝</span><h3>경조사 지원</h3><p>경조휴무·경조금·경조화환 · 반려동물 경조사 · 생일 반차</p><span class="badge badge-green" style="margin-top:8px;display:inline-block;">상세 규정 ↓ 아래</span></div>
+        <div class="card"><span class="card-icon">🎁</span><h3>기념일 선물 및 포상</h3><p>설/추석 명절 선물 · 입사일 웰컴 키트 · 창립기념일 휴일 · MVP제도</p></div>
+        <div class="card"><span class="card-icon">🏥</span><h3>종합검진 지원</h3><p>KMI 검진센터 <strong>2년에 1회</strong>, 인당 30~50만원 상당</p></div>
+        <div class="card"><span class="card-icon">🍽</span><h3>조직활성화비 & 식대</h3><p>매월 부서별 조직활성화비 · 야근 식대 · 주말 8시간 근무 시 식대 1회</p></div>
+        <div class="card"><span class="card-icon">🛍</span><h3>임직원 할인</h3><p>페스룸·위글위글 자사물 할인 · 피부과 제휴혜택</p><span class="badge badge-orange" style="margin-top:8px;display:inline-block;">상세 ↓ 아래</span></div>
+      </div>
+
+      <div class="sub-title">🤝 경조사 관리 규정</div>
+      <div class="table-wrap" style="margin-bottom:26px;">
+        <table class="info-table">
+          <thead><tr><th>경조 사유</th><th>경조금</th><th>경조 휴가</th><th>화환</th></tr></thead>
+          <tbody>
+            <tr><td>본인 결혼</td><td>500,000원</td><td>5일</td><td>O</td></tr>
+            <tr><td>자녀 결혼</td><td>200,000원</td><td>2일</td><td>O</td></tr>
+            <tr><td>본인 또는 배우자 부모 칠순</td><td>200,000원</td><td>없음</td><td>–</td></tr>
+            <tr><td>본인 또는 배우자 부모 사망</td><td>500,000원</td><td>5일</td><td>O</td></tr>
+            <tr><td>배우자 사망</td><td>500,000원</td><td>5일</td><td>O</td></tr>
+            <tr><td>자녀(또는 자녀 배우자) 사망</td><td>300,000원</td><td>5일</td><td>O</td></tr>
+            <tr><td>본인 또는 배우자 (외)조부모 사망</td><td>200,000원</td><td>3일</td><td>O</td></tr>
+            <tr><td>본인 또는 배우자 형제자매 사망</td><td>200,000원</td><td>3일</td><td>O</td></tr>
+            <tr><td>본인 혹은 배우자 출산</td><td>500,000원</td><td>법령에 따름</td><td>–</td></tr>
+            <tr><td>자녀 돌잔치</td><td>100,000원</td><td>없음</td><td>–</td></tr>
+            <tr><td>반려동물 입양</td><td>100,000원</td><td>없음</td><td>–</td></tr>
+            <tr><td>반려동물 사망</td><td>100,000원</td><td>1일</td><td>–</td></tr>
+            <tr><td>본인 생일</td><td>없음</td><td>0.5일 (반차)</td><td>–</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="sub-title">🛍 임직원 자사물 할인</div>
+      <div class="two-col" style="margin-bottom:12px;">
+        <div class="info-box blue"><span class="ib-icon">🐾</span><div class="ib"><h4>페스룸 (Pethroom)</h4><p>상시 할인가 기준 <strong>60% 할인쿠폰</strong> 월 1장 · 할인 한도 최대 30만원</p></div></div>
+        <div class="info-box blue"><span class="ib-icon">🌈</span><div class="ib"><h4>위글위글 (Wiggle Wiggle)</h4><p>상시 할인가 기준 <strong>50% 할인쿠폰</strong> 월 2장 제공</p></div></div>
+      </div>
+      <div class="info-box orange" style="margin-bottom:22px;">
+        <span class="ib-icon">📌</span>
+        <div class="ib"><h4>신청 방법</h4><p>각 자사물 사이트에서 회원가입 후 개인 ID를 <strong>커뮤니케이션파트(슬랙)</strong>로 전달. 당월 취합 후 익월 초에 쿠폰 적용됩니다.</p></div>
+      </div>
+
+      <div class="sub-title">💆 제휴 피부과 / 종합검진</div>
+      <div class="two-col">
+        <div class="info-box green"><span class="ib-icon">🏥</span><div class="ib"><h4>지유클리닉 제휴 할인</h4><p>서울시 서초구 서초대로 77길 54 더블유타워 3,4층<br>할인가 시술 · 결제 시 5% 마일리지 적립 · 방문 시 명함 또는 사원증 제시</p></div></div>
+        <div class="info-box blue"><span class="ib-icon">❤️‍🩹</span><div class="ib"><h4>KMI 종합건강검진 — 2년에 1회</h4><p>짝수/홀수년도 출생으로 대상자 구분 · 인당 30~50만원 상당<br>검진 당일 반차 지원 (기타휴가 '사유: 종합검진'으로 상신)</p></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════
+       PAGE 05 — 업무 툴 & 문화
+  ════════════════════════════════ -->
+  <div class="page" id="page-tools">
+    <div class="page-header">
+      <div class="page-header-num">05</div>
+      <div class="page-header-text">
+        <span class="page-tag">Tools & Culture</span>
+        <h2>업무 툴 &amp; 커뮤니케이션 방식</h2>
+        <p class="page-desc">BM Smile에서 사용하는 도구와 문화를 소개합니다.</p>
+      </div>
+    </div>
+    <div class="page-inner">
+      <div class="sub-title">💻 사내 업무 툴</div>
+      <div class="tool-grid" style="margin-bottom:28px;">
+        <div class="tool-card"><div class="t-icon">💬</div><h3>Slack</h3><p>대부분의 사내 소통이 이루어지는 메인 메신저</p></div>
+        <div class="tool-card"><div class="t-icon">📋</div><h3>Bizbox α</h3><p>결재·상신·근태·회의실 예약 등 업무 관리 ERP</p></div>
+        <div class="tool-card"><div class="t-icon">📁</div><h3>Google Workspace</h3><p>문서·자료 공유 및 협업 (Gmail, Drive, Docs, Meet)</p></div>
+        <div class="tool-card"><div class="t-icon">🤖</div><h3>AI 툴</h3><p>Gemini, ChatGPT, Midjourney — 업무에 적극 활용!</p></div>
+      </div>
+
+      <div class="sub-title">🤝 커뮤니케이션 방식</div>
+      <div class="step-list">
+        <div class="step-item"><div class="step-badge">1</div><div class="step-content"><h3>밝게 인사하기!</h3><p>마주치는 구성원들과 웃으면서 가볍게 인사하는 문화를 같이 만들어보아요!</p></div></div>
+        <div class="step-item"><div class="step-badge">2</div><div class="step-content"><h3>구성원 간의 상호 존중 및 존칭이 가장 기본!</h3><p>부재중인 팀원의 전화가 울리면 당겨 받아주세요! 내부·외부 모두 매너 있는 모두가 되었으면 합니다!</p></div></div>
+        <div class="step-item"><div class="step-badge">3</div><div class="step-content"><h3>본인 책상 및 주변 정리는 기본 중에 기본!</h3><p>사용한 물건은 제자리로, 일회용 컵은 쌓아두지 말고 바로 정리해 주세요. 쾌적한 환경을 함께 유지해 주세요.</p></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════
+       PAGE 06 — 신규 입사자 안내
+  ════════════════════════════════ -->
+  <div class="page" id="page-newbie">
+    <div class="page-header">
+      <div class="page-header-num">06</div>
+      <div class="page-header-text">
+        <span class="page-tag">For New Members</span>
+        <h2>신규 입사자님을 위한 안내</h2>
+        <p class="page-desc">입사 초기에 알아야 할 필수 사항들입니다.</p>
+      </div>
+    </div>
+    <div class="page-inner">
+      <div class="sub-title">🖥 그룹웨어 초기 접속</div>
+      <div class="info-box dark" style="margin-bottom:22px;">
+        <span class="ib-icon">🔐</span>
+        <div class="ib"><h4>초기 비밀번호</h4><p>그룹웨어 ID는 회신주셨던 계정을 사용하시면 되고, 비밀번호는 <strong style="color:#5bc8f0; font-size:15px;">1111</strong> (1이 4개) 입니다. 최초 로그인 후 즉시 비밀번호를 변경해주세요.</p></div>
+      </div>
+
+      <div class="sub-title">📄 근로계약서 작성</div>
+      <div class="info-box blue" style="margin-bottom:22px;">
+        <span class="ib-icon">✍️</span>
+        <div class="ib"><h4>카카오톡(모두싸인)으로 전송합니다</h4><p>입사 시 제출하신 서류 및 협의된 처우를 바탕으로 <strong>카카오톡(모두싸인)</strong>을 통해 보내드립니다. '문서 확인하고 서명하기'를 클릭하여 전자서명을 완료해주세요.</p></div>
+      </div>
+
+      <div class="sub-title">📶 WiFi 이용 안내</div>
+      <div class="info-box blue" style="margin-bottom:22px;">
+        <span class="ib-icon">📡</span>
+        <div class="ib"><h4>사내 WiFi</h4><p><strong>ID : bmsmile</strong> &nbsp;/&nbsp; <strong>PW : bmsmile!</strong> &nbsp;— 회의실 비치 안내판에도 기재되어 있습니다.</p></div>
+      </div>
+
+      <div class="sub-title">📅 회의실 예약</div>
+      <div class="info-box green" style="margin-bottom:22px;">
+        <span class="ib-icon">🗓</span>
+        <div class="ib"><h4>그룹웨어(비즈박스) → 일정 → 자원관리 → 자원예약</h4><p>먼저 예약하신 분에게 사용권이 있으며, 서로 배려하며 예약 부탁드립니다.</p></div>
+      </div>
+
+      <div class="sub-title">🖨 사내 비품 / PC</div>
+      <div class="step-list" style="margin-bottom:22px;">
+        <div class="step-item"><div class="step-badge">📌</div><div class="step-content"><h3>공용비품 위치</h3><p>인사총무팀에서 수시로 구매하여 <strong>각 라운지 캐비닛</strong> 등에 비치해두고 있습니다.</p></div></div>
+        <div class="step-item"><div class="step-badge">🛒</div><div class="step-content"><h3>개별 사무용품 구매</h3><p>각 부서별 안내된 <strong>오피스디포 계정</strong>을 통해 구매 신청 가능합니다.</p><span class="tip">절차: 인사총무팀 슬랙 요청 → 확인 및 승인 → 오피스디포 구매 신청</span></div></div>
+        <div class="step-item"><div class="step-badge">🔧</div><div class="step-content"><h3>PC 이상현상 발생 시</h3><p>먼저 <strong>전원 및 연결(HDMI 등) 선을 확인</strong>해 주세요. 동일한 현상이 지속되면 인사총무팀에 문의해주세요.</p></div></div>
+        <div class="step-item"><div class="step-badge">🖨</div><div class="step-content"><h3>복합기 토너 교체</h3><p>복합기 최 하단에 토너 여분 보관됩니다.<br>① 하단 보관함 Open → ② 여분 토너 개봉 → ③ 토너 슬롯 Open → ④ 색상에 따라 교체 → ⑤ 교체된 토너 폐기</p></div></div>
+      </div>
+
+      <div class="sub-title">🚑 사내 구급함 위치</div>
+      <div class="two-col">
+        <div class="info-box blue"><span class="ib-icon">💊</span><div class="ib"><h4>라운지 뒷편 캔틴</h4><p>진통제, 감기약, 지사제, 소화제, 밴드, 연고 등</p></div></div>
+        <div class="info-box blue"><span class="ib-icon">💊</span><div class="ib"><h4>인사실 앞 캔틴</h4><p>필요한 약이 있으시다면 인사에 문의 주세요 :)</p></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════
+       PAGE 07 — 각종 신청
+  ════════════════════════════════ -->
+  <div class="page" id="page-apply">
+    <div class="page-header">
+      <div class="page-header-num">07</div>
+      <div class="page-header-text">
+        <span class="page-tag">How to Apply</span>
+        <h2>각종 신청 안내</h2>
+        <p class="page-desc">모든 신청은 그룹웨어(Bizbox α)를 통해 진행됩니다.</p>
+      </div>
+    </div>
+    <div class="page-inner">
+      <div class="sub-title">📅 연차 신청</div>
+      <div class="info-box blue" style="margin-bottom:14px;">
+        <span class="ib-icon">🗓</span>
+        <div class="ib"><h4>그룹웨어 → 전자결재 → 휴가신청서</h4><p>신규 입사자에게도 당해년도 발생연차를 미리 부여합니다. (예: 2025년 7월 1일 입사 → 연차 5개 생성)<br>연차/반차/반반차 제도 운영. 퇴직 시 미리 사용된 연차는 금액에 반영될 수 있습니다.</p></div>
+      </div>
+
+      <div class="sub-title">🙏 경조휴가 / 경조금 신청</div>
+      <div class="two-col" style="margin-bottom:14px;">
+        <div class="info-box blue"><span class="ib-icon">📋</span><div class="ib"><h4>경조휴가 신청서</h4><p>그룹웨어 → 전자결재 → 경조휴가신청서<br>제목: 경조휴가 신청의 건 / 비고: 경조휴가 종류</p></div></div>
+        <div class="info-box blue"><span class="ib-icon">📋</span><div class="ib"><h4>경조금 신청서 (증빙서류 필수)</h4><p>그룹웨어 → 전자결재 → 경조금신청서<br>결혼: 청첩장 / 출산: 출산확인증명서 / 사망: 가족관계증명서+사망진단서</p></div></div>
+      </div>
+
+      <div class="sub-title">🗓 휴일근로 대체휴일 신청</div>
+      <div class="info-box blue" style="margin-bottom:14px;">
+        <span class="ib-icon">📋</span>
+        <div class="ib"><h4>그룹웨어 → 전자결재 → 휴일근무 신청서(휴일대체 동의서)</h4><p>휴일근무일 기준 <strong>24시간 전</strong> 미리 상신 · 8시간 초과 불가<br>대체휴일 사용 시 '휴가신청서'도 별도 상신 필수 · 휴일근로 후 <strong>1개월 이내</strong> 사용</p></div>
+      </div>
+
+      <div class="sub-title">📜 증명서 발급</div>
+      <div class="two-col" style="margin-bottom:14px;">
+        <div class="info-box blue"><span class="ib-icon">📄</span><div class="ib"><h4>재직/경력증명서</h4><p>그룹웨어 → 인사/근태 → 증명서 → 증명서신청 → 등록</p></div></div>
+        <div class="info-box blue"><span class="ib-icon">💳</span><div class="ib"><h4>급여명세서</h4><p>그룹웨어 → 인사/근태 → 급여관리 → 급여명세서</p></div></div>
+      </div>
+
+      <div class="sub-title">📚 도서 구매 지원</div>
+      <div class="info-box green" style="margin-bottom:14px;">
+        <span class="ib-icon">📚</span>
+        <div class="ib"><h4>그룹웨어 → 전자결재 → 도서구입신청서</h4><p>신청해주시면 확인 후 인사실에서 직접 주문해 드립니다.</p></div>
+      </div>
+
+      <div class="sub-title">🆔 사원증 분실 / 미지참</div>
+      <div class="step-list" style="margin-bottom:14px;">
+        <div class="step-item"><div class="step-badge">❗</div><div class="step-content"><h3>사원증 미지참 출근 시</h3><p>① 연락 가능한 팀원 또는 인사실 팀원에게 나와달라고 부탁해 우선 출입<br>② 출근 후 <strong>인사총무팀에 슬랙</strong> 반드시 전송 (출근 누락 방지)</p></div></div>
+        <div class="step-item"><div class="step-badge">🔁</div><div class="step-content"><h3>사원증 분실 시</h3><p>그룹웨어 → 전자결재 → <strong>'사원증 재발급 신청서'</strong> 상신 → 인사실 방문 후 수령</p></div></div>
+        <div class="step-item"><div class="step-badge">✏️</div><div class="step-content"><h3>사원증 및 명함 수정/제작</h3><p><strong>커뮤니케이션파트에 슬랙</strong> 주시기 바랍니다.</p></div></div>
+      </div>
+
+      <div class="sub-title">💸 중소기업소득세 감면</div>
+      <div class="info-box blue">
+        <span class="ib-icon">💰</span>
+        <div class="ib"><h4>해당자 자동 적용 — 별도 신청 불필요</h4><p>청년(만 15세~34세 이하), 60세 이상자, 장애인, 경력단절 여성의 경우 자동 적용. 인사실에서 연말정산 시 일괄 산정 반영합니다.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════
+       PAGE 08 — 주요 연락처
+  ════════════════════════════════ -->
+  <div class="page" id="page-contacts">
+    <div class="page-header">
+      <div class="page-header-num">08</div>
+      <div class="page-header-text">
+        <span class="page-tag">Key Contacts</span>
+        <h2>주요 연락처</h2>
+        <p class="page-desc">도움이 필요하실 땐 언제든 연락 주세요!</p>
+      </div>
+    </div>
+    <div class="page-inner">
+      <div class="contact-grid" style="margin-bottom:24px;">
+        <div class="contact-card"><span class="c-dept">인사실</span><span class="c-name">장세웅 팀장</span><span class="c-role">인사 전반 총괄</span><span class="c-scope">Slack</span></div>
+        <div class="contact-card"><span class="c-dept">인사총무팀</span><span class="c-name">한지훈 팀원</span><span class="c-role">급여, 근태, ERP,<br>그룹웨어, 시설, 비품 등</span><span class="c-scope">Slack</span></div>
+        <div class="contact-card"><span class="c-dept">인사총무팀</span><span class="c-name">김범수 주임</span><span class="c-role">급여, 근태, ERP,<br>그룹웨어, 시설, 비품 등</span><span class="c-scope">Slack</span></div>
+        <div class="contact-card"><span class="c-dept">커뮤니케이션파트</span><span class="c-name">김정인 파트장</span><span class="c-role">채용, 복리후생,<br>조직문화, PR 등</span><span class="c-scope">Slack</span></div>
+        <div class="contact-card"><span class="c-dept">커뮤니케이션파트</span><span class="c-name">조허윤 사원</span><span class="c-role">채용, 복리후생,<br>조직문화, PR 등</span><span class="c-scope">Slack</span></div>
+        <div class="contact-card"><span class="c-dept">커뮤니케이션파트</span><span class="c-name">이지원 사원</span><span class="c-role">채용, 복리후생,<br>조직문화, PR 등</span><span class="c-scope">Slack</span></div>
+      </div>
+
+      <div class="info-box blue">
+        <span class="ib-icon">💙</span>
+        <div class="ib"><h4>회사 생활에 어려움이 있을 경우</h4><p>소속팀 팀장님과의 상담에 어려움이 있다면 인사실에 상담 요청해주세요! 혼자 고민하는 것보다 공유했을 때 빠른 답을 찾을 수 있습니다. 고충사항 외에도 여러 회사생활 상담이 필요하면 언제든 연락주세요!</p></div>
+      </div>
+
+      <div style="margin-top:40px; padding:36px; background:var(--dark); border-radius:16px; text-align:center;">
+        <p style="font-family:'DM Serif Display',serif; font-size:26px; color:#fff; margin-bottom:10px;">함께해서 반갑습니다 🎉</p>
+        <p style="font-size:13px; color:rgba(255,255,255,0.4); margin-bottom:20px;">앞으로 여러분의 '불타는 열정'과 '반짝이는 혁신'을 부탁 드립니다.</p>
+        <a href="https://www.bmsmile.com" target="_blank" style="display:inline-flex;align-items:center;gap:6px;background:var(--blue);color:#fff;padding:10px 22px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;">공식 홈페이지 방문 →</a>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /content-wrap -->
+
+<script>
+  function navigate(pageId) {
+    // 페이지 전환
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    const target = document.getElementById('page-' + pageId);
+    if (target) {
+      target.classList.add('active');
+      target.scrollTop = 0;
+    }
+    // 네비 active
+    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+    const activeLink = document.querySelector(`.nav-link[data-page="${pageId}"]`);
+    if (activeLink) activeLink.classList.add('active');
+  }
+
+  // 사이드 네비 클릭
+  document.querySelectorAll('.nav-link[data-page]').forEach(btn => {
+    btn.addEventListener('click', () => navigate(btn.dataset.page));
+  });
+
+  // 히어로 칩 클릭
+  document.querySelectorAll('.hero-chip[data-page]').forEach(btn => {
+    btn.addEventListener('click', () => navigate(btn.dataset.page));
+  });
+</script>
+</body>
+</html>
