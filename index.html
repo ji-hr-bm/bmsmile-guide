@@ -199,6 +199,19 @@
   .tool-card p { font-size: 11px; color: var(--mid); }
 
   /* ── 연락처 ── */
+  /* ── 연락처 조직 그룹 ── */
+  .c-group-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--blue);
+    padding: 6px 4px 8px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 12px;
+    margin-top: 4px;
+  }
+  .contact-grid-1 { grid-template-columns: repeat(3, 1fr); }
+  .contact-grid-2 { grid-template-columns: repeat(3, 1fr); }
+  .contact-grid-3 { grid-template-columns: repeat(3, 1fr); }
+
   .contact-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(178px,1fr)); gap: 12px; }
   .contact-card { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 3px; }
   .c-dept { font-size: 8px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--blue); }
@@ -693,13 +706,25 @@
       </div>
     </div>
     <div class="page-inner">
-      <div class="contact-grid" style="margin-bottom:24px;">
-        <div class="contact-card"><span class="c-dept">인사실</span><span class="c-name">장세웅 팀장</span><span class="c-role">인사 전반 총괄</span><a class="c-scope c-slack" href="https://bmsmile.slack.com/team/U079PEPSJ0L" target="_blank">💬 Slack 프로필</a></div>
-        <div class="contact-card"><span class="c-dept">인사총무팀</span><span class="c-name">한지훈 팀원</span><span class="c-role">급여, 근태, ERP,<br>그룹웨어, 시설, 비품 등</span><a class="c-scope c-slack" href="https://bmsmile.slack.com/team/U06F9TZNZ24" target="_blank">💬 Slack 프로필</a></div>
-        <div class="contact-card"><span class="c-dept">인사총무팀</span><span class="c-name">김범수 주임</span><span class="c-role">급여, 근태, ERP,<br>그룹웨어, 시설, 비품 등</span><a class="c-scope c-slack" href="https://bmsmile.slack.com/team/U087ZAH2J1K" target="_blank">💬 Slack 프로필</a></div>
-        <div class="contact-card"><span class="c-dept">커뮤니케이션파트</span><span class="c-name">김정인 파트장</span><span class="c-role">채용, 복리후생,<br>조직문화, PR 등</span><a class="c-scope c-slack" href="https://bmsmile.slack.com/team/U07JQMT5T52" target="_blank">💬 Slack 프로필</a></div>
-        <div class="contact-card"><span class="c-dept">커뮤니케이션파트</span><span class="c-name">조허윤 사원</span><span class="c-role">채용, 복리후생,<br>조직문화, PR 등</span><a class="c-scope c-slack" href="https://bmsmile.slack.com/team/U07R9Q6V10U" target="_blank">💬 Slack 프로필</a></div>
-        <div class="contact-card"><span class="c-dept">커뮤니케이션파트</span><span class="c-name">이지원 사원</span><span class="c-role">채용, 복리후생,<br>조직문화, PR 등</span><a class="c-scope c-slack" href="https://bmsmile.slack.com/team/U09HNDEUZP1" target="_blank">💬 Slack 프로필</a></div>
+      <!-- 인사실 -->
+      <div class="c-group-label">인사실</div>
+      <div class="contact-grid contact-grid-1" style="margin-bottom:20px;">
+        <div class="contact-card"><span class="c-name">장세웅 실장</span><span class="c-role">인사 전반 총괄</span><a class="c-scope c-slack" href="https://bmsmile.slack.com/team/U079PEPSJ0L" target="_blank">💬 Slack 프로필</a></div>
+      </div>
+
+      <!-- 인사총무팀 -->
+      <div class="c-group-label">인사총무팀</div>
+      <div class="contact-grid contact-grid-2" style="margin-bottom:20px;">
+        <div class="contact-card"><span class="c-name">한지훈 팀장</span><span class="c-role">급여, 근태, ERP,<br>그룹웨어, 시설, 비품 등</span><a class="c-scope c-slack" href="https://bmsmile.slack.com/team/U06F9TZNZ24" target="_blank">💬 Slack 프로필</a></div>
+        <div class="contact-card"><span class="c-name">김범수 주임</span><span class="c-role">급여, 근태, ERP,<br>그룹웨어, 시설, 비품 등</span><a class="c-scope c-slack" href="https://bmsmile.slack.com/team/U087ZAH2J1K" target="_blank">💬 Slack 프로필</a></div>
+      </div>
+
+      <!-- 커뮤니케이션파트 -->
+      <div class="c-group-label">커뮤니케이션파트</div>
+      <div class="contact-grid contact-grid-3" style="margin-bottom:24px;">
+        <div class="contact-card"><span class="c-name">김정인 파트장</span><span class="c-role">채용, 복리후생,<br>조직문화, PR 등</span><a class="c-scope c-slack" href="https://bmsmile.slack.com/team/U07JQMT5T52" target="_blank">💬 Slack 프로필</a></div>
+        <div class="contact-card"><span class="c-name">조허윤 사원</span><span class="c-role">채용, 복리후생,<br>조직문화, PR 등</span><a class="c-scope c-slack" href="https://bmsmile.slack.com/team/U07R9Q6V10U" target="_blank">💬 Slack 프로필</a></div>
+        <div class="contact-card"><span class="c-name">이지원 사원</span><span class="c-role">채용, 복리후생,<br>조직문화, PR 등</span><a class="c-scope c-slack" href="https://bmsmile.slack.com/team/U09HNDEUZP1" target="_blank">💬 Slack 프로필</a></div>
       </div>
       <div class="info-box blue">
         <span class="ib-icon">💙</span>
